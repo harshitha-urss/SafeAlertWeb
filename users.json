@@ -1,0 +1,6 @@
+{
+  "HarshithaUrs": {
+    "password": "scrypt:32768:8:1$m6Cjn92A33Q5bhyj$5cf00e21b7cc5de65744f3e87722dc5f0c6d48add06fff77f130e3d621a45ecaf20c328ea70465179959df5e29ac46ea83cf4d40ebe6a99456e55b879d10ae1a",
+    "role": "admin"
+  }
+}

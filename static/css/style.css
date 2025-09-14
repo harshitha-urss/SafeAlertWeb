@@ -1,0 +1,143 @@
+/* General */
+body {
+  font-family: 'Roboto', sans-serif;
+  background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  max-width: 900px;
+  margin: 50px auto;
+  padding: 40px;
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+  text-align: center;
+}
+
+/* Header */
+header h1 {
+  font-size: 42px;
+  color: #1a237e;
+  margin: 0;
+}
+.subtitle {
+  font-size: 18px;
+  color: #3949ab;
+  margin-bottom: 10px;
+}
+.auth a {
+  color: #1a237e;
+  text-decoration: none;
+  font-weight: bold;
+  margin-left: 10px;
+}
+.auth a:hover {
+  text-decoration: underline;
+}
+
+/* Flash messages */
+.flash-messages {
+  margin: 20px auto;
+  padding: 12px;
+  background: #ffeb3b;
+  color: #000;
+  border-radius: 8px;
+  font-weight: 500;
+  max-width: 800px;
+}
+
+/* Emergency Alert Button */
+.alert-button-container {
+  margin: 25px 0;
+}
+.alert-btn {
+  background-color: #b71c1c; /* dark red */
+  color: black;               /* black letters */
+  padding: 20px 35px;
+  font-size: 24px;
+  font-weight: bold;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 5px 15px rgba(183, 28, 28, 0.4);
+}
+.alert-btn:hover {
+  background-color: #7f0000; /* even darker red on hover */
+  transform: scale(1.05);
+}
+
+/* Pulse animation for alert button */
+.pulse {
+  animation: pulse 1.2s infinite;
+}
+@keyframes pulse {
+  0% { transform: scale(1); box-shadow: 0 0 0 rgba(255,0,0,0.7); }
+  70% { transform: scale(1.08); box-shadow: 0 0 20px rgba(255,0,0,0.5); }
+  100% { transform: scale(1); box-shadow: 0 0 0 rgba(255,0,0,0); }
+}
+
+/* Alerts log section */
+.log-section {
+  text-align: left;
+  margin-top: 40px;
+}
+.log-section ul {
+  list-style-type: none;
+  padding: 0;
+}
+.log-section li {
+  padding: 15px 20px;
+  border-bottom: 1px solid #ccc;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 12px;
+  margin-bottom: 10px;
+  background-color: #f9f9f9;
+}
+
+/* Status badges */
+.status {
+  font-weight: bold;
+  padding: 3px 10px;
+  border-radius: 12px;
+  margin-left: 10px;
+  text-transform: uppercase;
+  font-size: 14px;
+}
+.status.Pending { color: #ff9800; background-color: #fff3e0; }
+.status.Confirmed { color: #4caf50; background-color: #e8f5e9; }
+.status.False { color: #f44336; background-color: #ffebee; }
+
+/* Action buttons */
+.alert-actions button {
+  margin-left: 5px;
+  padding: 6px 12px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+.confirm-btn { background-color: #4caf50; color: white; }
+.false-btn { background-color: #f44336; color: white; }
+.confirm-btn:hover { background-color: #388e3c; }
+.false-btn:hover { background-color: #c62828; }
+
+/* Footer */
+footer {
+  margin-top: 50px;
+  font-size: 14px;
+  color: #555;
+}
+
+/* Responsive adjustments */
+@media (max-width: 700px) {
+  .log-section li { flex-direction: column; align-items: flex-start; }
+  .alert-actions { margin-top: 8px; display: flex; gap: 8px; }
+  .alert-btn { font-size: 20px; padding: 15px 25px; }
+}

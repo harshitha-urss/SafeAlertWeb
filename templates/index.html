@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Safe Alert: Smart Emergency Reporting</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Safe Alert: Smart Emergency Reporting</h1>
+      <p class="subtitle">Notify authorities instantly in emergencies and prevent false alarms.</p>
+
+      <div class="auth">
+        {% if current_user.is_authenticated %}
+          <p>Logged in as <b>{{ current_user.username }}</b> (role: <b>{{ current_user.role }}</b>)
+          <a href="{{ url_for('logout') }}">Logout</a></p>
+        {% else %}
+          <a href="{{ url_for('login') }}">Login</a>
+        {% endif %}
+      </div>
+    </header>
+
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <div class="flash-messages">
+          {% for m in messages %}<p>{{ m }}</p>{% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+
+    <div class="alert-button-container">
+      {% if current_user.is_authenticated %}
+        <form action="{{ url_for('index') }}" method="post">
+          <button class="alert-btn pulse" type="submit">🚨 Send Emergency Alert</button>
+        </form>
+      {% else %}
+        <p><i>Please <a href="{{ url_for('login') }}">log in</a> to send an alert.</i></p>
+      {% endif %}
+    </div>
+
+    <div class="log-section">
+      <h2>Previous Alerts:</h2>
+      {% if alerts %}
+        <ul>
+          {% for alert in alerts %}
+            <li>
+              🚨 {{ alert.message }} at {{ alert.timestamp }}
+              <span class="status {{ alert.status|lower }}">{{ alert.status }}</span>
+              {% if current_user.role == 'admin' %}
+                <span class="alert-actions">
+                  <a href="{{ url_for('mark_alert', index=loop.index0, status='Confirmed') }}">
+                    <button class="confirm-btn">✔ Confirm</button>
+                  </a>
+                  <a href="{{ url_for('mark_alert', index=loop.index0, status='False') }}">
+                    <button class="false-btn">✖ False</button>
+                  </a>
+                </span>
+              {% endif %}
+            </li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p>No alerts yet.</p>
+      {% endif %}
+    </div>
+
+    <footer>
+      <p>© 2025 Safe Alert | Hackathon Project | Inspired by Safe Communities</p>
+    </footer>
+  </div>
+</body>
+</html>
