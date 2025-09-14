@@ -3,8 +3,11 @@
 2025-09-14 00:27:08|Emergency alert sent to authorities!|False|HarshithaUrs
 2025-09-14 00:27:09|Emergency alert sent to authorities!|False|HarshithaUrs
 2025-09-14 00:27:09|Emergency alert sent to authorities!|False|HarshithaUrs
-2025-09-14 00:27:09|Emergency alert sent to authorities!|Confirmed|HarshithaUrs
-2025-09-14 00:40:47|Emergency alert sent to authorities!|Confirmed|HarshithaUrs
+2025-09-14 00:27:09|Emergency alert sent to authorities!|False|HarshithaUrs
+2025-09-14 00:40:47|Emergency alert sent to authorities!|False|HarshithaUrs
 2025-09-14 00:44:47|Emergency alert sent to authorities!|Confirmed|HarshithaUrs
 2025-09-14 00:45:39|Emergency alert sent to authorities!|Confirmed|HarshithaUrs
 2025-09-14 11:09:50|Emergency alert sent to authorities!|Confirmed|HarshithaUrs
+2025-09-14 15:11:19|Emergency alert sent to authorities!|Confirmed|HarshithaUrs
+2025-09-14 15:12:36|Emergency alert sent to authorities!|Confirmed|HarshithaUrs
+2025-09-14 15:14:09|Emergency alert sent to authorities!|Confirmed|HarshithaUrs

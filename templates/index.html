@@ -4,71 +4,89 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Safe Alert: Smart Emergency Reporting</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
-<body>
-  <div class="container">
-    <header>
-      <h1>Safe Alert: Smart Emergency Reporting</h1>
-      <p class="subtitle">Notify authorities instantly in emergencies and prevent false alarms.</p>
+<body class="bg-gradient-to-br from-blue-100 to-purple-200 min-h-screen flex flex-col">
 
-      <div class="auth">
-        {% if current_user.is_authenticated %}
-          <p>Logged in as <b>{{ current_user.username }}</b> (role: <b>{{ current_user.role }}</b>)
-          <a href="{{ url_for('logout') }}">Logout</a></p>
-        {% else %}
-          <a href="{{ url_for('login') }}">Login</a>
-        {% endif %}
-      </div>
-    </header>
+  <!-- Header -->
+  <header class="bg-white shadow-lg p-6 text-center">
+    <h1 class="text-3xl md:text-5xl font-bold text-gradient-to-r from-red-600 via-pink-500 to-yellow-400">Safe Alert</h1>
+    <p class="text-gray-700 mt-2">Notify authorities instantly in emergencies and prevent false alarms.</p>
+    <div class="mt-4">
+      {% if current_user.is_authenticated %}
+        <p class="text-gray-800">Logged in as <b>{{ current_user.username }}</b> (role: <b>{{ current_user.role }}</b>)
+          <a href="{{ url_for('logout') }}" class="ml-3 text-red-500 hover:text-red-700 font-semibold">Logout</a>
+        </p>
+      {% else %}
+        <a href="{{ url_for('login') }}" class="text-blue-600 font-semibold hover:text-blue-800">Login</a>
+      {% endif %}
+    </div>
+  </header>
 
+  <!-- Flash Messages -->
+  <div class="mx-auto mt-4 w-11/12 md:w-2/3">
     {% with messages = get_flashed_messages() %}
       {% if messages %}
-        <div class="flash-messages">
-          {% for m in messages %}<p>{{ m }}</p>{% endfor %}
-        </div>
+        {% for m in messages %}
+          <div class="bg-yellow-200 border-l-4 border-yellow-500 text-yellow-700 p-4 mb-2 shadow-lg rounded-lg animate-bounce">
+            {{ m }}
+          </div>
+        {% endfor %}
       {% endif %}
     {% endwith %}
-
-    <div class="alert-button-container">
-      {% if current_user.is_authenticated %}
-        <form action="{{ url_for('index') }}" method="post">
-          <button class="alert-btn pulse" type="submit">🚨 Send Emergency Alert</button>
-        </form>
-      {% else %}
-        <p><i>Please <a href="{{ url_for('login') }}">log in</a> to send an alert.</i></p>
-      {% endif %}
-    </div>
-
-    <div class="log-section">
-      <h2>Previous Alerts:</h2>
-      {% if alerts %}
-        <ul>
-          {% for alert in alerts %}
-            <li>
-              🚨 {{ alert.message }} at {{ alert.timestamp }}
-              <span class="status {{ alert.status|lower }}">{{ alert.status }}</span>
-              {% if current_user.role == 'admin' %}
-                <span class="alert-actions">
-                  <a href="{{ url_for('mark_alert', index=loop.index0, status='Confirmed') }}">
-                    <button class="confirm-btn">✔ Confirm</button>
-                  </a>
-                  <a href="{{ url_for('mark_alert', index=loop.index0, status='False') }}">
-                    <button class="false-btn">✖ False</button>
-                  </a>
-                </span>
-              {% endif %}
-            </li>
-          {% endfor %}
-        </ul>
-      {% else %}
-        <p>No alerts yet.</p>
-      {% endif %}
-    </div>
-
-    <footer>
-      <p>© 2025 Safe Alert | Hackathon Project | Inspired by Safe Communities</p>
-    </footer>
   </div>
+
+  <!-- Alert Button -->
+  <div class="flex justify-center mt-8">
+    {% if current_user.is_authenticated %}
+      <form action="{{ url_for('index') }}" method="post">
+        <button class="bg-red-600 text-white px-8 py-4 rounded-xl shadow-xl hover:bg-red-700 transform hover:scale-105 transition-all animate-pulse font-bold text-lg">
+          🚨 Send Emergency Alert
+        </button>
+      </form>
+    {% else %}
+      <p class="text-gray-700 italic">Please <a href="{{ url_for('login') }}" class="text-blue-600 hover:text-blue-800 font-semibold">log in</a> to send an alert.</p>
+    {% endif %}
+  </div>
+
+  <!-- Previous Alerts -->
+  <main class="flex-grow mx-auto w-11/12 md:w-2/3 mt-12">
+    <h2 class="text-2xl font-semibold mb-4 text-gray-800">Previous Alerts</h2>
+    {% if alerts %}
+      <div class="grid gap-4">
+        {% for alert in alerts %}
+          <div class="bg-white p-4 rounded-xl shadow-md flex justify-between items-center hover:shadow-lg transition-all">
+            <div>
+              <p class="text-gray-800 font-medium">🚨 {{ alert.message }}</p>
+              <p class="text-gray-500 text-sm">at {{ alert.timestamp }}</p>
+            </div>
+            <div class="flex items-center space-x-2">
+              <span class="px-2 py-1 rounded-full text-sm font-semibold {% if alert.status == 'Pending' %}bg-yellow-200 text-yellow-800{% elif alert.status == 'Confirmed' %}bg-green-200 text-green-800{% else %}bg-red-200 text-red-800{% endif %}">
+                {{ alert.status }}
+              </span>
+              {% if current_user.role == 'admin' %}
+                <a href="{{ url_for('mark_alert', index=loop.index0, status='Confirmed') }}">
+                  <button class="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600 transition-all">✔ Confirm</button>
+                </a>
+                <a href="{{ url_for('mark_alert', index=loop.index0, status='False') }}">
+                  <button class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 transition-all">✖ False</button>
+                </a>
+              {% endif %}
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <p class="text-gray-600 italic">No alerts yet.</p>
+    {% endif %}
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-white shadow-inner p-6 text-center mt-12">
+    <p class="text-gray-700">© 2025 Safe Alert | Hackathon Project | Inspired by Safe Communities</p>
+  </footer>
+
 </body>
 </html>

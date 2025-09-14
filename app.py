@@ -9,11 +9,12 @@ app.secret_key = "supersecretkey"
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = "login"
-login_manager.remember_cookie_duration = datetime.timedelta(days=365)  # keep logged in for 1 year
+login_manager.remember_cookie_duration = datetime.timedelta(days=365)
 
 USERS_FILE = "users.txt"
 ALERTS_FILE = "alerts.txt"
 
+# ----- User Class -----
 class User(UserMixin):
     def __init__(self, id, username, role):
         self.id = id
@@ -33,6 +34,7 @@ def load_user(user_id):
         return None
     return None
 
+# ----- Alerts Functions -----
 def read_alerts():
     alerts = []
     if not os.path.exists(ALERTS_FILE):
@@ -50,6 +52,7 @@ def save_alerts(alerts):
         for alert in alerts:
             f.write(f"{alert['timestamp']}|{alert['message']}|{alert['status']}|{alert['user']}\n")
 
+# ----- Routes -----
 @app.route("/", methods=["GET", "POST"])
 @login_required
 def index():
@@ -62,8 +65,7 @@ def index():
         save_alerts(alerts)
         flash("🚨 Emergency alert sent! Authorities will investigate.")
         return redirect(url_for("index"))
-    # Reverse alerts to show newest first
-    alerts = list(reversed(alerts))
+    alerts = list(reversed(alerts))  # newest first
     return render_template("index.html", alerts=alerts, user=current_user)
 
 @app.route("/mark/<int:index>/<status>")
@@ -71,7 +73,6 @@ def index():
 def mark_alert(index, status):
     alerts = read_alerts()
     if 0 <= index < len(alerts):
-        # Since index is reversed in template, fix it
         real_index = len(alerts) - 1 - index
         alerts[real_index]["status"] = status
         save_alerts(alerts)
@@ -97,12 +98,34 @@ def login():
         flash("Invalid credentials")
     return render_template("login.html")
 
+@app.route("/register", methods=["GET", "POST"])
+def register():
+    if request.method == "POST":
+        username = request.form["username"].strip()
+        password = request.form["password"].strip()
+        role = "user"  # default role
+
+        # check if user exists
+        if os.path.exists(USERS_FILE):
+            with open(USERS_FILE, "r") as f:
+                for line in f.readlines():
+                    if line.strip().split("|")[0] == username:
+                        flash("Username already exists!")
+                        return redirect(url_for("register"))
+
+        # append new user
+        with open(USERS_FILE, "a") as f:
+            f.write(f"{username}|{password}|{role}\n")
+        flash("Registration successful! Please login.")
+        return redirect(url_for("login"))
+    return render_template("register.html")
+
 @app.route("/logout")
 @login_required
 def logout():
     logout_user()
     return redirect(url_for("login"))
 
+# ----- Run App -----
 if __name__ == "__main__":
-    # Run on local network for hackathon demo
     app.run(host="0.0.0.0", port=5000, debug=True)

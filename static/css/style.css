@@ -1,143 +1,185 @@
-/* General */
+/* --- General --- */
 body {
-  font-family: 'Roboto', sans-serif;
-  background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
-  margin: 0;
-  padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(to right, #6a11cb, #2575fc);
+    color: #fff;
+    margin: 0;
+    padding: 0;
 }
 
 .container {
-  max-width: 900px;
-  margin: 50px auto;
-  padding: 40px;
-  background: white;
-  border-radius: 20px;
-  box-shadow: 0 15px 40px rgba(0,0,0,0.2);
-  text-align: center;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
 }
 
-/* Header */
+/* --- Header --- */
+header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
 header h1 {
-  font-size: 42px;
-  color: #1a237e;
-  margin: 0;
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #fff;
 }
-.subtitle {
-  font-size: 18px;
-  color: #3949ab;
-  margin-bottom: 10px;
+
+header .subtitle {
+    font-size: 1.2rem;
+    color: #e0e0e0;
 }
+
+/* --- Auth --- */
+.auth {
+    margin-top: 10px;
+    font-size: 0.95rem;
+}
+
 .auth a {
-  color: #1a237e;
-  text-decoration: none;
-  font-weight: bold;
-  margin-left: 10px;
+    color: #ffea00;
+    text-decoration: none;
 }
+
 .auth a:hover {
-  text-decoration: underline;
+    text-decoration: underline;
 }
 
-/* Flash messages */
+/* --- Flash Messages --- */
 .flash-messages {
-  margin: 20px auto;
-  padding: 12px;
-  background: #ffeb3b;
-  color: #000;
-  border-radius: 8px;
-  font-weight: 500;
-  max-width: 800px;
+    margin: 15px 0;
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.2);
+    border-left: 5px solid #ffea00;
+    border-radius: 5px;
 }
 
-/* Emergency Alert Button */
+/* --- Alert Button --- */
 .alert-button-container {
-  margin: 25px 0;
+    text-align: center;
+    margin: 25px 0;
 }
+
 .alert-btn {
-  background-color: #b71c1c; /* dark red */
-  color: black;               /* black letters */
-  padding: 20px 35px;
-  font-size: 24px;
-  font-weight: bold;
-  border: none;
-  border-radius: 20px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 5px 15px rgba(183, 28, 28, 0.4);
+    background: linear-gradient(45deg, #ff512f, #dd2476);
+    border: none;
+    color: #fff;
+    padding: 15px 30px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    border-radius: 12px;
+    cursor: pointer;
+    box-shadow: 0 0 20px rgba(255, 81, 47, 0.5);
+    transition: transform 0.2s, box-shadow 0.3s;
+    animation: pulse 1.5s infinite;
 }
+
 .alert-btn:hover {
-  background-color: #7f0000; /* even darker red on hover */
-  transform: scale(1.05);
+    transform: scale(1.1);
+    box-shadow: 0 0 30px rgba(255, 81, 47, 0.7);
 }
 
-/* Pulse animation for alert button */
-.pulse {
-  animation: pulse 1.2s infinite;
-}
 @keyframes pulse {
-  0% { transform: scale(1); box-shadow: 0 0 0 rgba(255,0,0,0.7); }
-  70% { transform: scale(1.08); box-shadow: 0 0 20px rgba(255,0,0,0.5); }
-  100% { transform: scale(1); box-shadow: 0 0 0 rgba(255,0,0,0); }
+    0% { box-shadow: 0 0 20px rgba(255, 81, 47, 0.5); }
+    50% { box-shadow: 0 0 40px rgba(255, 81, 47, 0.8); }
+    100% { box-shadow: 0 0 20px rgba(255, 81, 47, 0.5); }
 }
 
-/* Alerts log section */
+/* --- Alerts Log --- */
 .log-section {
-  text-align: left;
-  margin-top: 40px;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 20px;
+    border-radius: 12px;
 }
+
+.log-section h2 {
+    margin-bottom: 15px;
+    font-size: 1.5rem;
+    color: #fff;
+}
+
 .log-section ul {
-  list-style-type: none;
-  padding: 0;
+    list-style: none;
+    padding: 0;
 }
+
 .log-section li {
-  padding: 15px 20px;
-  border-bottom: 1px solid #ccc;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-radius: 12px;
-  margin-bottom: 10px;
-  background-color: #f9f9f9;
+    padding: 12px 15px;
+    margin-bottom: 10px;
+    background: rgba(0,0,0,0.2);
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background 0.3s;
 }
 
-/* Status badges */
+.log-section li:hover {
+    background: rgba(0,0,0,0.35);
+}
+
 .status {
-  font-weight: bold;
-  padding: 3px 10px;
-  border-radius: 12px;
-  margin-left: 10px;
-  text-transform: uppercase;
-  font-size: 14px;
+    font-weight: bold;
+    padding: 5px 10px;
+    border-radius: 8px;
 }
-.status.Pending { color: #ff9800; background-color: #fff3e0; }
-.status.Confirmed { color: #4caf50; background-color: #e8f5e9; }
-.status.False { color: #f44336; background-color: #ffebee; }
 
-/* Action buttons */
+.status.pending { background: #f39c12; color: #000; }
+.status.confirmed { background: #27ae60; color: #fff; }
+.status.false { background: #c0392b; color: #fff; }
+
+/* --- Alert Action Buttons --- */
 .alert-actions button {
-  margin-left: 5px;
-  padding: 6px 12px;
-  border-radius: 10px;
-  border: none;
-  cursor: pointer;
-  font-weight: bold;
-  font-size: 14px;
-  transition: all 0.2s ease;
+    margin-left: 10px;
+    padding: 5px 12px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: transform 0.2s;
 }
-.confirm-btn { background-color: #4caf50; color: white; }
-.false-btn { background-color: #f44336; color: white; }
-.confirm-btn:hover { background-color: #388e3c; }
-.false-btn:hover { background-color: #c62828; }
 
-/* Footer */
+.confirm-btn {
+    background: #27ae60;
+    color: #fff;
+}
+
+.false-btn {
+    background: #c0392b;
+    color: #fff;
+}
+
+.alert-actions button:hover {
+    transform: scale(1.1);
+}
+
+/* --- Footer --- */
 footer {
-  margin-top: 50px;
-  font-size: 14px;
-  color: #555;
+    text-align: center;
+    margin-top: 40px;
+    font-size: 0.9rem;
+    color: #e0e0e0;
 }
 
-/* Responsive adjustments */
-@media (max-width: 700px) {
-  .log-section li { flex-direction: column; align-items: flex-start; }
-  .alert-actions { margin-top: 8px; display: flex; gap: 8px; }
-  .alert-btn { font-size: 20px; padding: 15px 25px; }
+/* --- Form Inputs --- */
+input {
+    padding: 10px;
+    border-radius: 8px;
+    border: none;
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+button[type="submit"] {
+    background: linear-gradient(45deg, #6a11cb, #2575fc);
+    color: #fff;
+    padding: 12px 20px;
+    border-radius: 10px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+button[type="submit"]:hover {
+    transform: scale(1.05);
 }
