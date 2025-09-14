@@ -11,3 +11,5 @@
 2025-09-14 15:11:19|Emergency alert sent to authorities!|Confirmed|HarshithaUrs
 2025-09-14 15:12:36|Emergency alert sent to authorities!|Confirmed|HarshithaUrs
 2025-09-14 15:14:09|Emergency alert sent to authorities!|Confirmed|HarshithaUrs
+2025-09-14 16:21:16|Emergency alert sent to authorities!|Confirmed|HarshithaUrs
+2025-09-14 16:21:42|Emergency alert sent to authorities!|Confirmed|demo

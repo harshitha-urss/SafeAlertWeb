@@ -9,18 +9,43 @@ app.secret_key = "supersecretkey"
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = "login"
-login_manager.remember_cookie_duration = datetime.timedelta(days=365)
+login_manager.remember_cookie_duration = datetime.timedelta(days=365)  # keep logged in for 1 year
 
 USERS_FILE = "users.txt"
 ALERTS_FILE = "alerts.txt"
 
-# ----- User Class -----
+# ---------------------------
+# User Class
+# ---------------------------
 class User(UserMixin):
     def __init__(self, id, username, role):
         self.id = id
         self.username = username
         self.role = role
 
+# ---------------------------
+# Ensure demo account exists
+# ---------------------------
+def ensure_demo_user():
+    if not os.path.exists(USERS_FILE):
+        with open(USERS_FILE, "w") as f:
+            f.write("demo|demo123|user\n")  # create file with demo user
+        return
+
+    # Check if demo user exists
+    with open(USERS_FILE, "r") as f:
+        users = [line.strip().split("|")[0] for line in f if line.strip()]
+
+    if "demo" not in users:
+        with open(USERS_FILE, "a") as f:
+            f.write("demo|demo123|user\n")
+
+# Run this at startup
+ensure_demo_user()
+
+# ---------------------------
+# Flask-Login user loader
+# ---------------------------
 @login_manager.user_loader
 def load_user(user_id):
     try:
@@ -34,7 +59,9 @@ def load_user(user_id):
         return None
     return None
 
-# ----- Alerts Functions -----
+# ---------------------------
+# Alerts helpers
+# ---------------------------
 def read_alerts():
     alerts = []
     if not os.path.exists(ALERTS_FILE):
@@ -52,7 +79,9 @@ def save_alerts(alerts):
         for alert in alerts:
             f.write(f"{alert['timestamp']}|{alert['message']}|{alert['status']}|{alert['user']}\n")
 
-# ----- Routes -----
+# ---------------------------
+# Routes
+# ---------------------------
 @app.route("/", methods=["GET", "POST"])
 @login_required
 def index():
@@ -65,7 +94,8 @@ def index():
         save_alerts(alerts)
         flash("🚨 Emergency alert sent! Authorities will investigate.")
         return redirect(url_for("index"))
-    alerts = list(reversed(alerts))  # newest first
+    # Reverse alerts to show newest first
+    alerts = list(reversed(alerts))
     return render_template("index.html", alerts=alerts, user=current_user)
 
 @app.route("/mark/<int:index>/<status>")
@@ -98,34 +128,11 @@ def login():
         flash("Invalid credentials")
     return render_template("login.html")
 
-@app.route("/register", methods=["GET", "POST"])
-def register():
-    if request.method == "POST":
-        username = request.form["username"].strip()
-        password = request.form["password"].strip()
-        role = "user"  # default role
-
-        # check if user exists
-        if os.path.exists(USERS_FILE):
-            with open(USERS_FILE, "r") as f:
-                for line in f.readlines():
-                    if line.strip().split("|")[0] == username:
-                        flash("Username already exists!")
-                        return redirect(url_for("register"))
-
-        # append new user
-        with open(USERS_FILE, "a") as f:
-            f.write(f"{username}|{password}|{role}\n")
-        flash("Registration successful! Please login.")
-        return redirect(url_for("login"))
-    return render_template("register.html")
-
 @app.route("/logout")
 @login_required
 def logout():
     logout_user()
     return redirect(url_for("login"))
 
-# ----- Run App -----
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)

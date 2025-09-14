@@ -1,1 +1,2 @@
 HarshithaUrs|Shiva@123|admin
+demo|demo123|user
